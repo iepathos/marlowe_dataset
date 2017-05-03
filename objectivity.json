@@ -1,0 +1,8 @@
+[
+    {"text": "Because many of the decisions we made are subjective, there is the possibility of human error in our data set.", "label": "subjective"},
+    {"text": "Delusional twits who contort themselves into philosophical pretzels to avoid scientific truth are always right.", "label": "subjective"},
+
+    // declaratives
+    {"text": "Roses are red.", "label": "objective"},
+    {"text": "Violets are blue.", "label": "objective"},
+]
