@@ -4,6 +4,7 @@ import json
 import sqlite3
 import requests
 import enchant
+import nltk.data
 
 english_enchant = enchant.Dict("en_US")
 
@@ -74,7 +75,7 @@ def check_text(text):
         label = 'error rate'
     return label
 
-
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 con = sqlite3.connect('/media/glen/Seagate Backup Plus Drive/redditcomments.sqlite')
 with con:
 
@@ -82,16 +83,19 @@ with con:
     cur.execute("SELECT * FROM May2015;")
     for i in range(100000):
         rows = cur.fetchone()
-        text = rows[17]
-        if not text_in_dataset(text):
-            print(text)
-            label = check_text(text)
-            if label != 'error rate' and label != 'not english':
-                append_result(text, label)
-                print(label)
-            elif label == 'not english':
-                print('Text is mostly not English')
+        chunk = rows[17]
+        sentences = tokenizer.tokenize(chunk)
+        for s in sentences:
+            text = s
+            if not text_in_dataset(text):
+                print(text)
+                label = check_text(text)
+                if label != 'error rate' and label != 'not english':
+                    append_result(text, label)
+                    print(label)
+                elif label == 'not english':
+                    print('Text is mostly not English')
+                else:
+                    print('Ensemble score falls into the error rate between objective and subjective')
             else:
-                print('Ensemble score falls into the error rate between objective and subjective')
-        else:
-            print('Text already in dataset, skipping.')
+                print('Text already in dataset, skipping.')
