@@ -96,6 +96,6 @@ with con:
                 elif label == 'not english':
                     print('Text is mostly not English')
                 else:
-                    print('Ensemble score falls into the error rate between objective and subjective')
+                    print('Ensemble score uncertain between objective and subjective')
             else:
                 print('Text already in dataset, skipping.')
