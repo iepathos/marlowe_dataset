@@ -7,6 +7,8 @@ import enchant
 import nltk.data
 
 english_enchant = enchant.Dict("en_US")
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+con = sqlite3.connect('/media/glen/Seagate Backup Plus Drive/redditcomments.sqlite')
 
 
 def append_result(text, label):
@@ -67,18 +69,16 @@ def check_text(text):
         r = requests.post('http://0.0.0.0' + ':' + port, data={'text': text})
         scores.append(json.loads(r.text)['objectivity'])
     score = sum(scores) / len(scores)
-    if score > .85:
+    if score > .9:
         label = 'objective'
-    elif score < .6:
+    elif score < .7:
         label = 'subjective'
     else:
         label = 'error rate'
     return label
 
-tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-con = sqlite3.connect('/media/glen/Seagate Backup Plus Drive/redditcomments.sqlite')
-with con:
 
+with con:
     cur = con.cursor()
     cur.execute("SELECT * FROM May2015;")
     for i in range(100000):
