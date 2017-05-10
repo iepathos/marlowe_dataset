@@ -69,9 +69,9 @@ def check_text(text):
         r = requests.post('http://0.0.0.0' + ':' + port, data={'text': text})
         scores.append(json.loads(r.text)['objectivity'])
     score = sum(scores) / len(scores)
-    if score > .9:
+    if score > .95:
         label = 'objective'
-    elif score < .7:
+    elif score < .6:
         label = 'subjective'
     else:
         label = 'error rate'
