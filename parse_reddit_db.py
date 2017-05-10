@@ -68,7 +68,7 @@ def check_text(text):
     score = sum(scores) / len(scores)
     if score > .85:
         label = 'objective'
-    elif score < .5:
+    elif score < .6:
         label = 'subjective'
     else:
         label = 'error rate'
