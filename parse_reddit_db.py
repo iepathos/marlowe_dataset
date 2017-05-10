@@ -60,17 +60,15 @@ def check_text(text):
     """
     if not is_english(text):
         return 'not english'
-    ports = ['5000', '5001']
+    ports = ['5000', '5001']  # local api ports for objectivity services
     scores = []
     for port in ports:
         r = requests.post('http://0.0.0.0' + ':' + port, data={'text': text})
         scores.append(json.loads(r.text)['objectivity'])
     score = sum(scores) / len(scores)
     if score > .85:
-        # objective
         label = 'objective'
     elif score < .5:
-        # subjective
         label = 'subjective'
     else:
         label = 'error rate'
